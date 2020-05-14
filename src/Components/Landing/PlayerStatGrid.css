@@ -1,0 +1,49 @@
+.PlayerGrid {
+  margin-top: 25px;
+  margin-left: 150px;
+  text-align: center;
+}
+
+.PlayerGrid__header,
+.PlayerGrid__player-details a {
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  color: #444;
+  width: 1000px;
+}
+
+.PlayerGrid__header div {
+  font-size: 1.2em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.PlayerGrid__player-details a {
+  border: 1px solid black;
+  border-radius: 2px;
+  margin: 10px 0;
+  padding: 5px 0;
+  background-color: #efefef;
+}
+
+.PlayerGrid__header div,
+.PlayerGrid__player-details a div {
+  margin: 0 50px;
+}
+
+.PlayerGrid__rank {
+  width: 100px;
+}
+
+.PlayerGrid__name {
+  width: 400px;
+}
+
+.PlayerGrid__club {
+  width: 400px;
+}
+
+.PlayerGrid__stat {
+  width: 700px;
+}
