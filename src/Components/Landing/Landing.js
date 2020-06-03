@@ -4,10 +4,10 @@ import "./PlayerStatGrid.css";
 import PlayerStatGrid from "./PlayerStatGrid";
 
 export default function Landing(props) {
-  const { players, clubs } = props;
+  const { players } = props;
 
   const playerItems = players.map((player) => (
-    <div className="PlayerGrid__player-details" key={player.playerId}>
+    <div className="PlayerGrid__player-details" key={player.id}>
       <PlayerStatGrid player={player} />
     </div>
   ));

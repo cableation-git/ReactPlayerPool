@@ -8,26 +8,25 @@ import PlayerClubs from "./PlayerClubs";
 export default class Player extends Component {
   render() {
     const { player, clubs, coaches, playerStats } = this.props;
-    console.log("player props", this.props);
-    console.log("player stats from store", playerStats);
+    //console.log("player stats from store", playerStats);
     console.log("in player.js", this.props);
-    console.log("bd", this.props.player.birthDate);
+    //console.log("bd", this.props.player.birthDate);
 
-    const playerCoachItems = (
-      <PlayerCoaches
-        playerCoach={coaches.find(
-          (playerCoach) => playerCoach.coachId === player.currentCoachId
-        )}
-      />
-    );
+    // const playerCoachItems = (
+    //   <PlayerCoaches
+    //     playerCoach={coaches.find(
+    //       (playerCoach) => playerCoach.coachId === player.currentCoachId
+    //     )}
+    //   />
+    // );
 
-    const playerClubItems = (
-      <PlayerClubs
-        playerClub={clubs.find(
-          (playerClub) => playerClub.clubId === player.currentClubId
-        )}
-      />
-    );
+    // const playerClubItems = (
+    //   <PlayerClubs
+    //     playerClub={clubs.find(
+    //       (playerClub) => playerClub.clubId === player.currentClubId
+    //     )}
+    //   />
+    // );
 
     return (
       <React.Fragment>
@@ -41,7 +40,7 @@ export default class Player extends Component {
           </div>
           <div className="Player__img">
             <img
-              src={this.props.player.imageUrl}
+              src={this.props.player.playerImage}
               alt={this.props.player.name}
               //style={{width: 40 + 'px', height: 40 + 'px'}}
             />
@@ -63,7 +62,7 @@ export default class Player extends Component {
             <div className="Player__statsContainer-header">
               Rolled-Up Player Stats
             </div>
-            <div className="PlayerStats__header">
+            {/* <div className="PlayerStats__header">
               <div className="PlayerStats__year">Year</div>
               <div className="PlayerStats__club">Club</div>
               <div className="PlayerStats__gamesPlayed">GP</div>
@@ -77,21 +76,21 @@ export default class Player extends Component {
               <div className="PlayerStats__offsides">OFF</div>
               <div className="PlayerStats__yellows">Y</div>
               <div className="PlayerStats__reds">R</div>
-            </div>
-            <div className="PlayerStats__row">
+            </div>*/}
+            {/* <div className="PlayerStats__row">
               <PlayerStats playerStat={playerStats} />
-            </div>
-          </div>
+            </div> */}
+          </div> 
 
           <div className="Player__natStatsContainer">
             Rolled Up National Team Stats
           </div>
 
-          <div className="Player__clubsContainer">
+           <div className="Player__clubsContainer">
             <div className="Player__clubsContainer-header">
               Clubs During Career
             </div>
-            <div className="PlayerClubs__header">
+            {/* <div className="PlayerClubs__header">
               <div className="PlayerClubs__name">Name</div>
               <div className="PlayerClubs__league">League</div>
               <div className="PlayerClubs__division">Division</div>
@@ -99,22 +98,22 @@ export default class Player extends Component {
               <div className="PlayerClubs__country">Country</div>
               <div className="PlayerClubs__inception">Inception</div>
             </div>
-            <div className="PlayerClubs__row">{playerClubItems}</div>
-          </div>
+            <div className="PlayerClubs__row">{playerClubItems}</div> */}
+          </div> 
 
-          <div className="Player__coachesContainer">
+           <div className="Player__coachesContainer">
             <div className="Player__coachesContainer-header">
               Coaches During Career
             </div>
-            <div className="PlayerCoaches__header">
+            {/* <div className="PlayerCoaches__header">
               <div className="PlayerCoaches__firstName">First</div>
               <div className="PlayerCoaches__lastName">Last</div>
               <div className="PlayerCoaches__birthDate">BirthDate</div>
               <div className="PlayerCoaches__birthCountry">Born In</div>
               <div className="PlayerCoaches__currentClub">Club</div>
               <div className="PlayerCoaches__yearsAtClub">Years at Club</div>
-            </div>
-            <div className="PlayerCoaches__row">{playerCoachItems}</div>
+            </div> */}
+            {/* <div className="PlayerCoaches__row">{playerCoachItems}</div> */}
           </div>
         </div>
       </React.Fragment>

@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import Store from "../../Store";
+//import Store from "../../Store";
 import PlayerPoolContext from "../../PlayerPoolContext";
 import NavBar from "../NavBar/NavBar";
 import Landing from "../Landing/Landing";
 import Player from "../Player/Player";
 import PlayersList from "../PlayersList/PlayersList";
 import Club from "../Club/Club";
-import ClubList from "../ClubList/ClubList";
+import ClubsList from "../ClubsList/ClubsList";
 import Coach from "../Coach/Coach";
 import CoachList from "../CoachList/CoachList";
 import "./App.css";
+import PlayersApiService from "../../Services/players_api_service";
+import ClubsApiService from "../../Services/clubs_api_service";
 
 export default class App extends Component {
   constructor(props) {
@@ -18,6 +20,7 @@ export default class App extends Component {
     this.state = {
       error: null,
       players: [],
+      playersInfo: [],
       clubs: [],
       coaches: [],
       playerStats: [],
@@ -27,6 +30,12 @@ export default class App extends Component {
   setPlayers = (players) => {
     this.setState({
       players,
+    });
+  };
+
+  setPlayersInfo = (playersInfo) => {
+    this.setState({
+      playersInfo,
     });
   };
 
@@ -72,18 +81,40 @@ export default class App extends Component {
     });
   };
 
+  // componentDidMount() {
+  //   this.setPlayers(Store.players);
+  //   this.setClubs(Store.clubs);
+  //   this.setCoaches(Store.coaches);
+  //   this.setPlayerStats(Store.playerStats);
+  // }
+
   componentDidMount() {
-    this.setPlayers(Store.players);
-    this.setClubs(Store.clubs);
-    this.setCoaches(Store.coaches);
-    this.setPlayerStats(Store.playerStats);
+    console.log("component did mount");
+
+    const getAllPlayersRequest = PlayersApiService.getAllPlayers();
+    const getPlayersInfoRequest = PlayersApiService.getPlayerInfo();
+    const getAllClubsRequest = ClubsApiService.getAllClubs();
+
+    Promise.all([getAllPlayersRequest, getPlayersInfoRequest])
+      .then((values) => {
+        this.setPlayers(values[0]);
+        this.setPlayersInfo(values[1]);
+      })
+      .catch((error) => this.setState({ error: error.message }));
+
+    Promise.all([getAllClubsRequest])
+    .then((values) => {
+      this.setClubs(values[0]);      
+    })
+    .catch((error) => this.setState({ error: error.message }));  
   }
 
   render() {
     console.log("Players", this.state.players);
-    console.log("Clubs", this.state.clubs);
-    console.log("Coaches", this.state.coaches);
-    console.log("PlayerStats", this.state.playerStats);
+    console.log("PlayersInfo", this.state.playersInfo);
+    // console.log("Clubs", this.state.clubs);
+    // console.log("Coaches", this.state.coaches);
+    // console.log("PlayerStats", this.state.playerStats);
     const contextValue = {
       players: this.state.players,
       setPlayers: this.setPlayers,
@@ -110,8 +141,8 @@ export default class App extends Component {
               path="/"
               component={(routeProps) => (
                 <Landing
-                  players={this.state.players}
-                  clubs={this.state.clubs}
+                  players={this.state.playersInfo}
+                  //clubs={this.state.clubs}
                   {...routeProps}
                 />
               )}
@@ -124,9 +155,9 @@ export default class App extends Component {
               component={(routeProps) => (
                 <PlayersList
                   players={this.state.players}
-                  playerStats={this.state.playerStats}
-                  clubs={this.state.clubs}
-                  coaches={this.state.coaches}
+                  // playerStats={this.state.playerStats}
+                  // clubs={this.state.clubs}
+                  // coaches={this.state.coaches}
                   {...routeProps}
                 />
               )}
@@ -140,16 +171,16 @@ export default class App extends Component {
                 <Player
                   player={this.state.players.find(
                     (player) =>
-                      player.playerId ===
+                      player.id ===
                       Number(routeProps.match.params.playerId)
                   )}
-                  clubs={this.state.clubs}
-                  coaches={this.state.coaches}
-                  playerStats={this.state.playerStats.find(
-                    (playerStats) =>
-                      playerStats.playerId ===
-                      Number(routeProps.match.params.playerId)
-                  )}
+                  //clubs={this.state.clubs}
+                  //coaches={this.state.coaches}
+                  //playerStats={this.state.playerStats.find(
+                  //  (playerStats) =>
+                  //    playerStats.playerId ===
+                  //    Number(routeProps.match.params.playerId)
+                  //)}
                   {...routeProps}
                 />
               )}
@@ -160,7 +191,9 @@ export default class App extends Component {
               exact
               path="/clubs"
               component={(routeProps) => (
-                <ClubList clubs={this.state.clubs} {...routeProps} />
+                <ClubsList 
+                  clubs={this.state.clubs} 
+                  {...routeProps} />
               )}
             />
 
