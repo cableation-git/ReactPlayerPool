@@ -1,0 +1,62 @@
+.CoachesListGrid {
+    margin-top: 25px;
+    margin-left: 100px;
+    text-align: center;
+  }
+  
+  .CoachesListGrid__header,
+  .CoachesListGrid__coach-details a {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    color: #444;
+    width: 1200px;
+  }
+  
+  .CoachesListGrid__header div {
+    font-size: 1.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .CoachesListGrid__coach-details a {
+    border: 1px solid black;
+    border-radius: 2px;
+    margin: 10px 0;
+    padding: 5px 0;
+    background-color: #efefef;
+  }
+  
+  .CoachesListGrid__header div,
+  .CoachesListGrid__coach-details a div {
+    margin: 0 50px;
+  }
+
+  .CoachesListGrid__coachName {
+    width: 400px;
+  }
+
+  .CoachesListGrid__birthDate {
+    width: 300px;
+  }
+
+  .CoachesListGrid__birthPlace {
+    width: 300px;
+  }
+  
+  .CoachesListGrid__currentClub {
+    width: 200px;
+  }
+  .CoachesListGrid__yearHired {
+    width: 200px;
+  }
+
+  .CoachesListGrid__coachImage {
+    width: 300px;
+  }
+
+  .CoachesListGrid__coachImage img {
+    width: 50%;
+    height: auto;
+  }
+  

@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { render } from "@testing-library/react";
 
 export default function ClubsListGrid(props) {
   console.log("in clubsListGrid", props);
@@ -10,18 +9,18 @@ export default function ClubsListGrid(props) {
 };
 
   return (
-    <NavLink to={`/clubs/${props.club.id}`}>
-      <div className="ClubsListGrid__clubName"> {props.club.clubName.toProperCase()}, {props.club.leagueName.toProperCase()}</div>
-      <div className="ClubsListGrid__stadiumName"> {props.club.stadiumName.toProperCase()}</div>
-  <div className="ClubsListGrid__location"> {props.club.city.toProperCase()}, {props.club.country.toUpperCase()}</div>
+    <NavLink to={`/clubs/${props.club.club_id}`}>
+      <div className="ClubsListGrid__clubName"> {props.club.club_name.toProperCase()}, {props.club.leagueName.toProperCase()}</div>
+      <div className="ClubsListGrid__stadiumName"> {props.club.stadium_name.toProperCase()}</div>
+      <div className="ClubsListGrid__location"> {props.club.city.toProperCase()}, {props.club.country.toUpperCase()}</div>
       <div className="ClubsListGrid__inception"> {props.club.inception}</div>
-  <div className="ClubsListGrid__currentUSMNTPlayer"> {props.club.playerFirstName} {props.club.playerLastName}</div>
+      <div className="ClubsListGrid__currentUSMNTPlayer"> {props.club.playerFirstName} {props.club.playerLastName}</div>
       <div className="ClubsListGrid__clubImage">
-            <img
-              src={props.club.clubImage}
-              alt={props.club.clubName}
-            />
-          </div>
+          <img
+            src={props.club.icon_url}
+            alt={props.club.club_name}
+          />
+        </div>
     </NavLink>
   );
 }

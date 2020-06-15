@@ -20,6 +20,9 @@ export default class NavBar extends Component {
             <li>
               <NavLink to="/players">Players</NavLink>
             </li>
+            <li>
+              <NavLink to="/leagues">Leagues</NavLink>
+            </li>
           </ul>
         </nav>
       </header>

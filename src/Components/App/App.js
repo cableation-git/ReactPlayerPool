@@ -6,12 +6,18 @@ import NavBar from "../NavBar/NavBar";
 import Landing from "../Landing/Landing";
 import Player from "../Player/Player";
 import PlayersList from "../PlayersList/PlayersList";
+import AddPlayer from "../Player/PlayerForms/AddPlayer";
+import UpdatePlayer from "../Player/PlayerForms/UpdatePlayer";
 import Club from "../Club/Club";
 import ClubsList from "../ClubsList/ClubsList";
+import AddClub from "../Club/ClubForms/AddClub";
 import Coach from "../Coach/Coach";
-import CoachList from "../CoachList/CoachList";
+import CoachesList from "../CoachesList/CoachesList";
+import AddCoach from "../Coach/CoachForms/AddCoach";
+import LeaguesList from "../LeaguesList/LeaguesList";
 import "./App.css";
 import PlayersApiService from "../../Services/players_api_service";
+import LeaguesApiService from "../../Services/leagues_api_service";
 import ClubsApiService from "../../Services/clubs_api_service";
 
 export default class App extends Component {
@@ -24,6 +30,7 @@ export default class App extends Component {
       clubs: [],
       coaches: [],
       playerStats: [],
+      leagues: [],
     };
   }
 
@@ -36,12 +43,6 @@ export default class App extends Component {
   setPlayersInfo = (playersInfo) => {
     this.setState({
       playersInfo,
-    });
-  };
-
-  setClubs = (clubs) => {
-    this.setState({
-      clubs,
     });
   };
 
@@ -63,6 +64,23 @@ export default class App extends Component {
     });
   };
 
+   updatePlayer = updatedPlayer => {
+    this.setState({
+      players: this.state.players.map(player =>
+        (player.player_id !== updatedPlayer.player_id) ? player : updatedPlayer
+        )
+    })
+  }
+
+  deletePlayer = (player_id) => {
+    const newPlayers = this.state.players.filter(player =>
+      player.player_id !== Number(player_id)
+      );
+    this.setState({
+      players: newPlayers
+    });  
+  }
+
   addClub = (club) => {
     this.setState({
       clubs: [...this.state.clubs, club],
@@ -81,44 +99,52 @@ export default class App extends Component {
     });
   };
 
-  // componentDidMount() {
-  //   this.setPlayers(Store.players);
-  //   this.setClubs(Store.clubs);
-  //   this.setCoaches(Store.coaches);
-  //   this.setPlayerStats(Store.playerStats);
-  // }
+  setLeagues = (leagues) => {
+    this.setState({
+      leagues,
+    });
+  };
+
+  setClubs = (clubs) => {
+    this.setState({
+      clubs,
+    });
+  };
 
   componentDidMount() {
     console.log("component did mount");
 
     const getAllPlayersRequest = PlayersApiService.getAllPlayers();
     const getPlayersInfoRequest = PlayersApiService.getPlayerInfo();
+    const getAllLeaguesRequest = LeaguesApiService.getAllLeagues();
     const getAllClubsRequest = ClubsApiService.getAllClubs();
+    // const getAllCoachesRequest = CoachesApiService.getAllCoaches();
 
-    Promise.all([getAllPlayersRequest, getPlayersInfoRequest])
+    Promise.all([
+      getAllPlayersRequest,
+      getPlayersInfoRequest,
+      getAllLeaguesRequest,
+      getAllClubsRequest,
+    ])
       .then((values) => {
         this.setPlayers(values[0]);
         this.setPlayersInfo(values[1]);
+        this.setLeagues(values[2]);
+        this.setClubs(values[3]);
       })
       .catch((error) => this.setState({ error: error.message }));
-
-    Promise.all([getAllClubsRequest])
-    .then((values) => {
-      this.setClubs(values[0]);      
-    })
-    .catch((error) => this.setState({ error: error.message }));  
   }
 
   render() {
     console.log("Players", this.state.players);
     console.log("PlayersInfo", this.state.playersInfo);
-    // console.log("Clubs", this.state.clubs);
-    // console.log("Coaches", this.state.coaches);
-    // console.log("PlayerStats", this.state.playerStats);
+    console.log("Leagues", this.state.leagues);
     const contextValue = {
       players: this.state.players,
       setPlayers: this.setPlayers,
       addPlayers: this.addPlayer,
+      updatePlayer: this.updatePlayer,
+      deletePlayer: this.deletePlayer,
       clubs: this.state.clubs,
       setClubs: this.setClubs,
       addClubs: this.addClub,
@@ -128,6 +154,8 @@ export default class App extends Component {
       playerStats: this.state.playerStats,
       setPlayerStats: this.setPlayerStats,
       addPlayerStats: this.addPlayerStat,
+      leagues: this.state.leagues,
+      setLeagues: this.setLeagues,
     };
 
     return (
@@ -140,11 +168,7 @@ export default class App extends Component {
               exact
               path="/"
               component={(routeProps) => (
-                <Landing
-                  players={this.state.playersInfo}
-                  //clubs={this.state.clubs}
-                  {...routeProps}
-                />
+                <Landing players={this.state.playersInfo} {...routeProps} />
               )}
             />
 
@@ -171,16 +195,30 @@ export default class App extends Component {
                 <Player
                   player={this.state.players.find(
                     (player) =>
-                      player.id ===
-                      Number(routeProps.match.params.playerId)
+                      player.player_id === Number(routeProps.match.params.playerId)
                   )}
-                  //clubs={this.state.clubs}
-                  //coaches={this.state.coaches}
-                  //playerStats={this.state.playerStats.find(
-                  //  (playerStats) =>
-                  //    playerStats.playerId ===
-                  //    Number(routeProps.match.params.playerId)
-                  //)}
+                  {...routeProps}
+                />
+              )}
+            />
+
+            {/* Add Player */}
+            <Route
+              exact
+              path="/addplayer"
+              component={(routeProps) => <AddPlayer {...routeProps} />}
+            />
+
+            {/* Update Player */}
+            <Route
+              exact
+              path="/updateplayer/:player_id"
+              component={(routeProps) => (
+                <UpdatePlayer
+                  player={this.state.players.find(
+                    (player) =>
+                      player.player_id === Number(routeProps.match.params.player_id)
+                  )}
                   {...routeProps}
                 />
               )}
@@ -190,11 +228,7 @@ export default class App extends Component {
             <Route
               exact
               path="/clubs"
-              component={(routeProps) => (
-                <ClubsList 
-                  clubs={this.state.clubs} 
-                  {...routeProps} />
-              )}
+              component={(routeProps) => <ClubsList {...routeProps} />}
             />
 
             {/* Club Page */}
@@ -205,18 +239,41 @@ export default class App extends Component {
                 <Club
                   club={this.state.clubs.find(
                     (club) =>
-                      club.clubId === Number(routeProps.match.params.clubId)
+                      club.club_id === Number(routeProps.match.params.club_id)
                   )}
                   {...routeProps}
                 />
               )}
             />
+
+            {/* Add Club */}
+            <Route
+              exact
+              path="/addclub"
+              component={(routeProps) => (
+                <AddClub
+                  leagues={this.state.leagues.map((league) => ({
+                    league_id: league.league_id,
+                    league_name: league.league_name,
+                  }))}
+                  {...routeProps}
+                />
+              )}
+            />
+
+            {/* Leagues List */}
+            <Route
+              exact
+              path="/leagues"
+              component={(routeProps) => <LeaguesList {...routeProps} />}
+            />
+
             {/* Coach List */}
             <Route
               exact
               path="/coaches"
               component={(routeProps) => (
-                <CoachList coaches={this.state.coaches} {...routeProps} />
+                <CoachesList coaches={this.state.coaches} {...routeProps} />
               )}
             />
             {/* Coach Page */}
@@ -227,8 +284,22 @@ export default class App extends Component {
                 <Coach
                   coach={this.state.coaches.find(
                     (coach) =>
-                      coach.coachId === Number(routeProps.match.params.coachId)
+                      coach.coach_id === Number(routeProps.match.params.coach_id)
                   )}
+                  {...routeProps}
+                />
+              )}
+            />
+            {/* Add Coach */}
+            <Route
+              exact
+              path="/addcoach"
+              component={(routeProps) => (
+                <AddCoach
+                  clubs={this.state.clubs.map((club) => ({
+                    club_id: club.club_id,
+                    club_name: club.club_name,
+                  }))}
                   {...routeProps}
                 />
               )}

@@ -11,27 +11,27 @@ export default function PlayersListGrid(props) {
 
   const getBirthPlace = () => {
     let birthPlace = '';
-    if (props.player.birthState === "") {
+    if (props.player.birth_state === "") {
       birthPlace =
-        props.player.birthCity.toProperCase() + ", " + props.player.birthCountry.toUpperCase();
+        props.player.birth_city.toProperCase() + ", " + props.player.birth_country.toUpperCase();
     } else {
       birthPlace =
-        props.player.birthCity.toProperCase() +
+        props.player.birth_city.toProperCase() +
         ", " +
-        props.player.birthState.toUpperCase() +
+        props.player.birth_state.toUpperCase() +
         ", " +
-        props.player.birthCountry.toUpperCase();
+        props.player.birth_country.toUpperCase();
     }
 
     return birthPlace;
   };
 
   return (
-    <NavLink to={`/players/${props.player.id}`}>
+    <NavLink to={`/players/${props.player.player_id}`}>
       <div className="PlayersListGrid__name">
-        {props.player.firstName} {props.player.lastName}
+        {props.player.first_name.toProperCase()} {props.player.last_name.toProperCase()}
       </div>
-      <div className="PlayersListGrid__birthDate">{props.player.birthDate}</div>
+      <div className="PlayersListGrid__birthDate">{props.player.birth_date}</div>
       <div className="PlayersListGrid__birthPlace">{getBirthPlace()}</div>
     </NavLink>
   );

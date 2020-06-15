@@ -4,13 +4,12 @@ import PlayerStats from "./PlayerStats";
 import PlayerCoaches from "./PlayerCoaches";
 import PlayerClubs from "./PlayerClubs";
 //import Store from "../../Store";
+import { NavLink } from 'react-router-dom';
 
 export default class Player extends Component {
   render() {
     const { player, clubs, coaches, playerStats } = this.props;
-    //console.log("player stats from store", playerStats);
     console.log("in player.js", this.props);
-    //console.log("bd", this.props.player.birthDate);
 
     // const playerCoachItems = (
     //   <PlayerCoaches
@@ -30,31 +29,39 @@ export default class Player extends Component {
 
     return (
       <React.Fragment>
+        <div>
+        <NavLink
+          className={'button'}
+          to={`/updateplayer/${this.props.player.player_id}`}
+        >
+          Update {this.props.player.first_name}
+        </NavLink>
+      </div>
         <div className="Player">
           <div className="Player__name">
-            {this.props.player.firstName} {this.props.player.lastName}
+            {this.props.player.first_name} {this.props.player.last_name}
             <br />
             <span className="Player__infoText">
-              Currently Playing for ClubID - {this.props.player.currentClub}
+              Currently Playing for ClubID - {this.props.player.current_club}
             </span>
           </div>
           <div className="Player__img">
             <img
-              src={this.props.player.playerImage}
-              alt={this.props.player.name}
+              src={this.props.player.image_url}
+              alt={this.props.player.first_name}
               //style={{width: 40 + 'px', height: 40 + 'px'}}
             />
           </div>
           <div className="Player__profile">
-            Born - {this.props.player.birthDate}
+            Born - {this.props.player.birth_date}
             <br />
             Height - {this.props.player.height}
             <br />
-            City - {this.props.player.birthCity}
+            City - {this.props.player.birth_city}
             <br />
-            State - {this.props.player.birthState}
+            State - {this.props.player.birth_state}
             <br />
-            Country - {this.props.player.birthCountry}
+            Country - {this.props.player.birth_country}
             <br />
           </div>
 
@@ -62,7 +69,7 @@ export default class Player extends Component {
             <div className="Player__statsContainer-header">
               Rolled-Up Player Stats
             </div>
-            {/* <div className="PlayerStats__header">
+             <div className="PlayerStats__header">
               <div className="PlayerStats__year">Year</div>
               <div className="PlayerStats__club">Club</div>
               <div className="PlayerStats__gamesPlayed">GP</div>
@@ -76,7 +83,7 @@ export default class Player extends Component {
               <div className="PlayerStats__offsides">OFF</div>
               <div className="PlayerStats__yellows">Y</div>
               <div className="PlayerStats__reds">R</div>
-            </div>*/}
+            </div>
             {/* <div className="PlayerStats__row">
               <PlayerStats playerStat={playerStats} />
             </div> */}
@@ -90,7 +97,7 @@ export default class Player extends Component {
             <div className="Player__clubsContainer-header">
               Clubs During Career
             </div>
-            {/* <div className="PlayerClubs__header">
+             <div className="PlayerClubs__header">
               <div className="PlayerClubs__name">Name</div>
               <div className="PlayerClubs__league">League</div>
               <div className="PlayerClubs__division">Division</div>
@@ -98,21 +105,21 @@ export default class Player extends Component {
               <div className="PlayerClubs__country">Country</div>
               <div className="PlayerClubs__inception">Inception</div>
             </div>
-            <div className="PlayerClubs__row">{playerClubItems}</div> */}
+            {/* <div className="PlayerClubs__row">{playerClubItems}</div>  */}
           </div> 
 
            <div className="Player__coachesContainer">
             <div className="Player__coachesContainer-header">
               Coaches During Career
             </div>
-            {/* <div className="PlayerCoaches__header">
+            <div className="PlayerCoaches__header">
               <div className="PlayerCoaches__firstName">First</div>
               <div className="PlayerCoaches__lastName">Last</div>
               <div className="PlayerCoaches__birthDate">BirthDate</div>
               <div className="PlayerCoaches__birthCountry">Born In</div>
               <div className="PlayerCoaches__currentClub">Club</div>
               <div className="PlayerCoaches__yearsAtClub">Years at Club</div>
-            </div> */}
+            </div> 
             {/* <div className="PlayerCoaches__row">{playerCoachItems}</div> */}
           </div>
         </div>
